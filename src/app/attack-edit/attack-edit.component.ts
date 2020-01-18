@@ -13,6 +13,8 @@ import {AboutVillageModel} from '../models/about-village.model';
 })
 export class AttackEditComponent implements OnInit, OnDestroy {
 
+  showDate = false;
+
   aboutVillage: AboutVillageModel = {
     name: null,
     availableTroops: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -54,6 +56,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.attackForm = new FormGroup({
       id: new FormControl(),
       villageName: new FormControl(),
+      immediately: new FormControl(true),
       time: new FormControl(this.timeModel),
       date: new FormControl(new Date()),
       x: new FormControl(0, Validators.required),
@@ -74,6 +77,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       firstTarget: new FormControl('99'),
       secondTarget: new FormControl('99'),
     });
+    this.attackForm.controls.date.disable();
+    this.attackForm.controls.time.disable();
   }
 
   onSubmit() {
@@ -84,7 +89,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.attack = {
       playerId: this.attackForm.value.playerId,
       attackId: 'testAttack',
-      immediately: true,
+      immediately: this.attackForm.value.immediately,
       villageName: this.attackForm.value.villageName,
       x: +this.attackForm.value.x,
       y: +this.attackForm.value.y,
@@ -95,12 +100,24 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
     console.log(this.attack);
 
-    this.attackService.sendAttack(this.attack);
+    /*this.attackService.sendAttack(this.attack);*/
   }
 
 
   getControls() {
     return (this.attackForm.get('breakingDetails') as FormArray).controls;
+  }
+
+  onImmediatelyChange(value) {
+    if (value.target.checked) {
+      this.attackForm.controls.date.disable();
+      this.attackForm.controls.time.disable();
+      this.showDate = false;
+    } else {
+      this.attackForm.controls.date.enable();
+      this.attackForm.controls.time.enable();
+      this.showDate = true;
+    }
   }
 
   onAddWave() {
