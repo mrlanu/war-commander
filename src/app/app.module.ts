@@ -11,6 +11,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faAngleDoubleDown, faAngleLeft, faAngleRight, faCalendarAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
 import { TestComponent } from './test/test.component';
+import {HttpClientModule} from '@angular/common/http';
+import {AttackService} from './services/attack.service';
 
 @NgModule({
   declarations: [
@@ -25,9 +27,10 @@ import { TestComponent } from './test/test.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
-  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
+  providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}, AttackService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

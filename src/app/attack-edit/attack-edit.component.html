@@ -4,6 +4,21 @@
       <div class="col-lg-6">
         <form [formGroup]="attackForm" (ngSubmit)="onSubmit()">
 
+          <!--Villages list-->
+
+          <div class="form-group">
+            <label for="village" class="col-sm-2">Village</label>
+            <div class="input-group col-sm-12">
+              <select (change)="attackService.getAboutVillage($event.target.value)" class="form-control form-control-sm" formControlName="villageName" id="village">
+                <option *ngFor="let village of aboutVillage.allVillageList" [value]="village.name">
+                  {{village.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!--Date-->
+
           <div class="form-group">
             <label for="date" class="col-sm-2 col-form-label">Date</label>
             <div class="input-group col-sm-12">
@@ -24,11 +39,15 @@
             </div>
           </div>
 
+          <!--Time-->
+
           <div class="form-group">
             <div class="input-group input-group-sm col-sm-12">
               <ngb-timepicker style="margin: auto" size="small" formControlName="time" [seconds]="seconds"></ngb-timepicker>
             </div>
           </div>
+
+          <!--Coordinates-->
 
           <div class="form-group">
             <div class="input-group input-group-sm col-sm-12">
@@ -40,26 +59,28 @@
             </div>
           </div>
 
+          <!--Kind of Attack-->
+
           <fieldset class="form-group ml-3">
             <div class="row">
               <div class="col-sm-10">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="2"
-                         formControlName="gridRadios">
+                  <input class="form-check-input" type="radio" name="kind" id="gridRadios1" value="2"
+                         formControlName="kind">
                   <label class="form-check-label" for="gridRadios1">
                     Подкрепление
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="3"
-                         formControlName="gridRadios">
+                  <input class="form-check-input" type="radio" name="kind" id="gridRadios2" value="3"
+                         formControlName="kind">
                   <label class="form-check-label" for="gridRadios2">
                     Атака: обычная
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="4"
-                         formControlName="gridRadios">
+                  <input class="form-check-input" type="radio" name="kind" id="gridRadios3" value="4"
+                         formControlName="kind">
                   <label class="form-check-label" for="gridRadios3">
                     Атака: набег
                   </label>
@@ -67,6 +88,9 @@
               </div>
             </div>
           </fieldset>
+
+
+          <!--Troops-->
 
           <div class="row mb-4">
             <div class="col">
@@ -76,9 +100,10 @@
                     <img class="unit u21" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u21">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[0] }}</span>
                 </div>
               </div>
             </div>
@@ -90,9 +115,10 @@
                     <img class="unit u22" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u22">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[1] }}</span>
                 </div>
               </div>
             </div>
@@ -103,9 +129,10 @@
                     <img class="unit u23" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u23">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[2] }}</span>
                 </div>
               </div>
             </div>
@@ -119,9 +146,10 @@
                     <img class="unit u24" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u24">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[3] }}</span>
                 </div>
               </div>
             </div>
@@ -133,9 +161,10 @@
                     <img class="unit u25" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u25">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[4] }}</span>
                 </div>
               </div>
             </div>
@@ -146,9 +175,10 @@
                     <img class="unit u26" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u26">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[5] }}</span>
                 </div>
               </div>
             </div>
@@ -162,9 +192,10 @@
                     <img class="unit u27" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u27">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[6] }}</span>
                 </div>
               </div>
             </div>
@@ -176,9 +207,10 @@
                     <img class="unit u28" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u28">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[7] }}</span>
                 </div>
               </div>
             </div>
@@ -189,9 +221,10 @@
                     <img class="unit u29" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u29">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[8] }}</span>
                 </div>
               </div>
             </div>
@@ -205,9 +238,10 @@
                     <img class="unit u30" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u30">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[9] }}</span>
                 </div>
               </div>
             </div>
@@ -219,56 +253,138 @@
                     <img class="unit u31" src="../../assets/images/x.gif" alt="Фаланга">
                   </span>
                 </div>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                       formControlName="u31">
                 <div class="input-group-append">
-                  <span class="input-group-text">/0000</span>
+                  <span class="input-group-text">{{ aboutVillage?.availableTroops[10] }}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!--<div formArrayName="breakingDetails" fxLayout="column">
-            <div class="detail-container"
-                 fxLayout="column" fxLayoutAlign="center center"
-                 *ngFor="let detailCtrl of getControls(); let i = index"
-                 [formGroupName]="i">
-              <mat-form-field>
-                <mat-select placeholder="Kind of breaking" formControlName="kind">
-                  <mat-option *ngFor="let kind of kinds" [value]="kind.name">
-                    {{ kind.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="getControls()[i].get('kind').hasError('required')">
-                  Kind is required
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field>
-                <textarea rows="2" placeholder="Description" formControlName="description" matInput></textarea>
-                <mat-error *ngIf="getControls()[i].get('description').hasError('required')">
-                  Description is required
-                </mat-error>
-              </mat-form-field>
-
-              <div fxFlex fxFlexAlign="end" fxLayoutGap="5px">
-                <button mat-icon-button color="accent"
-                        [disabled]="getControls()[i].invalid"
-                        (click)="onAddDetail()">
-                  <mat-icon>add_circle</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="onDeleteDetail(i)">
-                  <mat-icon>close</mat-icon>
-                </button>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="col-sm-8">Target #1</label>
+                  <select class="form-control" name="troops[0][kata]" formControlName="firstTarget">
+                    <option value="99">Случайная цель</option>
+                    <optgroup label="Сырье">
+                      <option value="1">Лесопилка</option>
+                      <option value="2">Глиняный карьер</option>
+                      <option value="3">Железный рудник</option>
+                      <option value="4">Ферма</option>
+                      <option value="5">Лесопильный завод</option>
+                      <option value="6">Кирпичный завод</option>
+                      <option value="7">Чугунолитейный завод</option>
+                      <option value="8">Мукомольная мельница</option>
+                      <option value="9">Пекарня</option>
+                    </optgroup>
+                    <optgroup label="Инфраструктура">
+                      <option value="10">Склад</option>
+                      <option value="11">Амбар</option>
+                      <option value="15">Главное здание</option>
+                      <option value="17">Рынок</option>
+                      <option value="18">Посольство</option>
+                      <option value="24">Ратуша</option>
+                      <option value="25">Резиденция</option>
+                      <option value="26">Дворец</option>
+                      <option value="27">Сокровищница</option>
+                      <option value="28">Торговая палата</option>
+                      <option value="38">Большой склад</option>
+                      <option value="39">Большой амбар</option>
+                    </optgroup>
+                    <optgroup label="Армия">
+                      <option value="13">Кузница</option>
+                      <option value="14">Арена</option>
+                      <option value="16">Пункт сбора</option>
+                      <option value="19">Казарма</option>
+                      <option value="20">Конюшня</option>
+                      <option value="21">Мастерская</option>
+                      <option value="22">Академия</option>
+                      <option value="29">Большая казарма</option>
+                      <option value="30">Большая конюшня</option>
+                      <option value="37">Таверна</option>
+                    </optgroup>
+                  </select>
               </div>
             </div>
-            <div fxFlex fxFlexAlign="end">
-              <button class="button-save" type="submit"
-                      [disabled]="breakingForm.invalid"
-                      (click)="onSubmit()" mat-raised-button color="primary">Save
-              </button>
+            <div class="col">
+              <div class="form-group">
+                <label class="col-sm-8">Target #2</label>
+                  <select class="form-control" name="troops[0][kata]" formControlName="secondTarget">
+                    <option value="99">Случайная цель</option>
+                    <optgroup label="Сырье">
+                      <option value="1">Лесопилка</option>
+                      <option value="2">Глиняный карьер</option>
+                      <option value="3">Железный рудник</option>
+                      <option value="4">Ферма</option>
+                      <option value="5">Лесопильный завод</option>
+                      <option value="6">Кирпичный завод</option>
+                      <option value="7">Чугунолитейный завод</option>
+                      <option value="8">Мукомольная мельница</option>
+                      <option value="9">Пекарня</option>
+                    </optgroup>
+                    <optgroup label="Инфраструктура">
+                      <option value="10">Склад</option>
+                      <option value="11">Амбар</option>
+                      <option value="15">Главное здание</option>
+                      <option value="17">Рынок</option>
+                      <option value="18">Посольство</option>
+                      <option value="24">Ратуша</option>
+                      <option value="25">Резиденция</option>
+                      <option value="26">Дворец</option>
+                      <option value="27">Сокровищница</option>
+                      <option value="28">Торговая палата</option>
+                      <option value="38">Большой склад</option>
+                      <option value="39">Большой амбар</option>
+                    </optgroup>
+                    <optgroup label="Армия">
+                      <option value="13">Кузница</option>
+                      <option value="14">Арена</option>
+                      <option value="16">Пункт сбора</option>
+                      <option value="19">Казарма</option>
+                      <option value="20">Конюшня</option>
+                      <option value="21">Мастерская</option>
+                      <option value="22">Академия</option>
+                      <option value="29">Большая казарма</option>
+                      <option value="30">Большая конюшня</option>
+                      <option value="37">Таверна</option>
+                    </optgroup>
+                  </select>
+              </div>
             </div>
-          </div>-->
+          </div>
+
           <div class="mt-5" style="text-align: center">
-            <button type="submit" class="btn btn-primary btn-sm">ADD WAVE</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="onAddWave()" [disabled]="attack.waves.length >= 4">ADD WAVE</button>
+          </div>
+
+          <hr>
+
+
+          <!--Waves-->
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" *ngFor="let troop of aboutVillage.availableTroops; let i = index;">
+                  <img [className]="'unit u' + (20 + i + 1)" src="../../assets/images/x.gif" alt="image">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let wave of attack.waves; let i = index;">
+                <th scope="row">{{i + 1}}</th>
+                <td *ngFor="let troop of wave.troops; let t = index">
+                  {{ troop }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="mt-5" style="text-align: center">
+            <button type="submit" class="btn btn-primary btn-sm">SEND ATTACK</button>
           </div>
         </form>
       </div>
