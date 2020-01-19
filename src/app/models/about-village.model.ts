@@ -1,7 +1,5 @@
 import {VillageModel} from './village.model';
 
-export interface AboutVillageModel {
-  name: string;
-  availableTroops: number[];
-  allVillageList: VillageModel[];
+export class AboutVillageModel {
+  constructor(public name: string, public availableTroops: number[], public allVillageList: VillageModel[]) {}
 }

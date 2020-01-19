@@ -7,7 +7,7 @@
           <!--Villages list-->
 
           <div class="form-group">
-            <label for="village" class="col-sm-2">Village</label>
+            <label for="village" class="col-sm-6">Select a Village</label>
             <div class="input-group col-sm-12">
               <select (change)="attackService.getAboutVillage($event.target.value)" class="form-control form-control-sm" formControlName="villageName" id="village">
                 <option *ngFor="let village of aboutVillage.allVillageList" [value]="village.name">
@@ -120,7 +120,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u21">
+                         formControlName="u21" name="u21" (input)="checkAvailableTroops(0, u21, $event)" #u21>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[0] }}</span>
                   </div>
@@ -135,7 +135,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u22">
+                         formControlName="u22" name='u22' (input)="checkAvailableTroops(1, u22, $event)" #u22>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[1] }}</span>
                   </div>
@@ -150,7 +150,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u23">
+                         formControlName="u23" name="u23" (input)="checkAvailableTroops(2, u23, $event)" #u23>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[2] }}</span>
                   </div>
@@ -167,7 +167,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u24">
+                         formControlName="u24" name="u24" (input)="checkAvailableTroops(3, u24, $event)" #u24>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[3] }}</span>
                   </div>
@@ -182,7 +182,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u25">
+                         formControlName="u25" name="u25" (input)="checkAvailableTroops(4, u25, $event)" #u25>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[4] }}</span>
                   </div>
@@ -197,7 +197,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u26">
+                         formControlName="u26" name="u26" (input)="checkAvailableTroops(5, u26, $event)" #u26>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[5] }}</span>
                   </div>
@@ -214,7 +214,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u27">
+                         formControlName="u27" name="u27" (input)="checkAvailableTroops(6, u27, $event)" #u27>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[6] }}</span>
                   </div>
@@ -229,7 +229,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u28">
+                         formControlName="u28" name="u28" (input)="checkAvailableTroops(7, u28, $event)" #u28>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[7] }}</span>
                   </div>
@@ -244,7 +244,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u29">
+                         formControlName="u29" name="u29" (input)="checkAvailableTroops(8, u29, $event)" #u29>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[8] }}</span>
                   </div>
@@ -261,7 +261,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u30">
+                         formControlName="u30" name="u30" (input)="checkAvailableTroops(9, u30, $event)" #u30>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[9] }}</span>
                   </div>
@@ -276,7 +276,7 @@
                   </span>
                   </div>
                   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                         formControlName="u31">
+                         formControlName="u31" name="u31" (input)="checkAvailableTroops(10, u31, $event)" #u31>
                   <div class="input-group-append">
                     <span class="input-group-text">{{ aboutVillage?.availableTroops[10] }}</span>
                   </div>
@@ -387,8 +387,8 @@
           <hr>
 
           <!--Waves-->
-          <div class="form-group">
-            <table class="table">
+          <div class="form-group table-responsive">
+            <table class="table table-striped table-sm">
               <thead>
               <tr>
                 <th scope="col">#</th>

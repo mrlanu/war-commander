@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {AttackModel} from '../models/attack.model';
@@ -15,30 +15,21 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
   showDate = false;
 
-  aboutVillage: AboutVillageModel = {
-    name: null,
-    availableTroops: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    allVillageList: null
-  };
+  aboutVillage: AboutVillageModel = new AboutVillageModel(
+    null,
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], null
+  );
+
+  attack: AttackModel = new AttackModel(
+    '', '', true, '',
+    0, 0, 3, new Date(), []
+  );
+
+  timeModel: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
+  seconds = true;
 
   attackForm: FormGroup;
   componentSubs: Subscription[] = [];
-  timeModel: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
-  seconds = true;
-  date: Date;
-
-  attack: AttackModel = {
-    playerId: '',
-    attackId: '',
-    immediately: true,
-    villageName: '',
-    x: 0,
-    y: 0,
-    kindAttack: 3,
-    time: new Date(),
-    waves: []
-  };
-
 
   constructor(private attackService: AttackService) { }
 
@@ -59,8 +50,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       immediately: new FormControl(true),
       time: new FormControl(this.timeModel),
       date: new FormControl(new Date()),
-      x: new FormControl(0, Validators.required),
-      y: new FormControl(0, Validators.required),
+      x: new FormControl(0),
+      y: new FormControl(0),
       kind: new FormControl('3'),
       playerId: new FormControl('mrlanu'),
       u21: new FormControl(0),
@@ -77,18 +68,13 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       firstTarget: new FormControl('99'),
       secondTarget: new FormControl('99'),
     });
-    this.attackForm.controls.date.disable();
-    this.attackForm.controls.time.disable();
   }
 
   onSubmit() {
-    // tslint:disable-next-line:label-position
-    this.date = this.attackForm.value.date;
-    this.date.setHours(this.attackForm.value.time.hour, this.attackForm.value.time.minute, this.attackForm.value.time.second);
-
     this.attack = {
-      playerId: this.attackForm.value.playerId,
+      ...this.attack,
       attackId: 'testAttack',
+      playerId: this.attackForm.value.playerId,
       immediately: this.attackForm.value.immediately,
       villageName: this.attackForm.value.villageName,
       x: +this.attackForm.value.x,
@@ -98,25 +84,26 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       waves: this.attack.waves
     };
 
+    if (this.showDate) {
+    this.attack.time.setHours(
+      this.attackForm.value.time.hour,
+      this.attackForm.value.time.minute,
+      this.attackForm.value.time.second);
+    }
+
     console.log(this.attack);
-
-    /*this.attackService.sendAttack(this.attack);*/
-  }
-
-
-  getControls() {
-    return (this.attackForm.get('breakingDetails') as FormArray).controls;
+    this.attackService.sendAttack(this.attack);
+    this.attack.waves = [];
   }
 
   onImmediatelyChange(value) {
-    if (value.target.checked) {
-      this.attackForm.controls.date.disable();
-      this.attackForm.controls.time.disable();
-      this.showDate = false;
-    } else {
-      this.attackForm.controls.date.enable();
-      this.attackForm.controls.time.enable();
-      this.showDate = true;
+    this.showDate = !value.target.checked;
+  }
+
+  checkAvailableTroops(id, itself, amount) {
+    if (+amount.target.value > this.aboutVillage.availableTroops[id]) {
+      const input = itself as HTMLInputElement;
+      this.attackForm.get(input.name).patchValue(this.aboutVillage.availableTroops[id]);
     }
   }
 
