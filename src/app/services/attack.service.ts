@@ -11,17 +11,26 @@ import {AttackModel} from '../models/attack.model';
 export class AttackService {
 
   baseUrl = environment.baseUrl;
-  aboutVillageChanged = new Subject<AboutVillageModel>();
+  villagesChanged = new Subject<AboutVillageModel>();
+  availableTroopsChanged = new Subject<AboutVillageModel>();
 
   constructor(private httpClient: HttpClient) { }
 
-  getAboutVillage(villageName: string) {
+  getAllTroops(playerId: string, villageName: string) {
     console.log(villageName);
-    const url = `${this.baseUrl}/villages/mrlanu/${villageName}`;
+    const url = `${this.baseUrl}/villages/${playerId}/${villageName}`;
     this.httpClient.get<AboutVillageModel>(url)
-      .subscribe(village => {
-        console.log(village);
-        this.aboutVillageChanged.next(village);
+      .subscribe(info => {
+        this.availableTroopsChanged.next(info);
+      });
+  }
+
+  getAllVillages(playerId: string) {
+    const url = `${this.baseUrl}/villages/${playerId}`;
+    this.httpClient.get<AboutVillageModel>(url)
+      .subscribe(info => {
+        console.log(info);
+        this.villagesChanged.next(info);
       });
   }
 

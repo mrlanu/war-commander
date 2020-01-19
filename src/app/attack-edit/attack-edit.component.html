@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="village" class="col-sm-6">Select a Village</label>
             <div class="input-group col-sm-12">
-              <select (change)="attackService.getAboutVillage($event.target.value)" class="form-control form-control-sm" formControlName="villageName" id="village">
+              <select (change)="attackService.getAllTroops('mrlanu', $event.target.value)" class="form-control form-control-sm" formControlName="villageName" id="village">
                 <option *ngFor="let village of aboutVillage.allVillageList" [value]="village.name">
                   {{village.name}}
                 </option>

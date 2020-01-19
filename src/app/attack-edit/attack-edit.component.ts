@@ -35,11 +35,15 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.componentSubs.push(this.attackService.aboutVillageChanged
-      .subscribe((village: AboutVillageModel) => {
-        this.aboutVillage = village;
+    this.componentSubs.push(this.attackService.villagesChanged
+      .subscribe((info: AboutVillageModel) => {
+        this.aboutVillage.allVillageList = info.allVillageList;
       }));
-    this.attackService.getAboutVillage('03uiKT73dYMsa7Z');
+    this.componentSubs.push(this.attackService.availableTroopsChanged
+      .subscribe((info: AboutVillageModel) => {
+        this.aboutVillage.availableTroops = info.availableTroops;
+      }));
+    this.attackService.getAllVillages('mrlanu');
   }
 
   initForm() {
