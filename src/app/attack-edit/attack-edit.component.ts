@@ -43,7 +43,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       .subscribe((info: AboutVillageModel) => {
         this.aboutVillage.availableTroops = info.availableTroops;
       }));
-    this.attackService.getAllVillages('mrlanu');
+    //this.attackService.getAllVillages('mrlanu');
   }
 
   initForm() {
