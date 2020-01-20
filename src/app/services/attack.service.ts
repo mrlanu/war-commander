@@ -42,4 +42,14 @@ export class AttackService {
         console.log(error);
       });
   }
+
+  sendSpam(spam: AttackModel) {
+    const url = `${this.baseUrl}/spams`;
+    this.httpClient.post(url, spam, {responseType: 'text'})
+      .subscribe(conf => {
+        console.log(conf);
+      }, error => {
+        console.log(error);
+      });
+  }
 }

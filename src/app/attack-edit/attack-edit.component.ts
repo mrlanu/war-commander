@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import {AboutVillageModel} from '../models/about-village.model';
 export class AttackEditComponent implements OnInit, OnDestroy {
 
   showDate = false;
+  isSpam = false;
   connected = false;
 
   aboutVillage: AboutVillageModel = new AboutVillageModel(
@@ -31,6 +32,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
   attackForm: FormGroup;
   componentSubs: Subscription[] = [];
+  @ViewChild('spam', {static: false}) spam;
 
   constructor(private attackService: AttackService) { }
 
@@ -48,6 +50,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
         this.aboutVillage.availableTroops = info.availableTroops;
       }));
   }
+
+  onSpam() {}
 
   onConnect() {
     this.attackService.getAllVillages(this.attackForm.value.clientId);
@@ -81,7 +85,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  onSubmit(isSpam: boolean) {
+    console.log(isSpam);
     this.attack = {
       ...this.attack,
       attackId: 'testAttack',
@@ -102,7 +107,11 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       this.attackForm.value.time.second);
     }
 
-    this.attackService.sendAttack(this.attack);
+    if (isSpam) {
+      this.attackService.sendSpam(this.attack);
+    } else {
+      this.attackService.sendAttack(this.attack);
+    }
     this.attack.waves = [];
   }
 
