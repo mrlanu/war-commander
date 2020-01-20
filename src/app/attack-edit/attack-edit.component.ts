@@ -124,6 +124,19 @@ export class AttackEditComponent implements OnInit, OnDestroy {
         +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31],
       firstTarget: +this.attackForm.value.firstTarget,
       secondTarget: +this.attackForm.value.secondTarget});
+
+    this.aboutVillage.availableTroops[0] = +this.aboutVillage.availableTroops[0] - +this.attackForm.value.u21;
+    this.aboutVillage.availableTroops[1] = +this.aboutVillage.availableTroops[1] - +this.attackForm.value.u22;
+    this.aboutVillage.availableTroops[2] = +this.aboutVillage.availableTroops[2] - +this.attackForm.value.u23;
+    this.aboutVillage.availableTroops[3] = +this.aboutVillage.availableTroops[3] - +this.attackForm.value.u24;
+    this.aboutVillage.availableTroops[4] = +this.aboutVillage.availableTroops[4] - +this.attackForm.value.u25;
+    this.aboutVillage.availableTroops[5] = +this.aboutVillage.availableTroops[5] - +this.attackForm.value.u26;
+    this.aboutVillage.availableTroops[6] = +this.aboutVillage.availableTroops[6] - +this.attackForm.value.u27;
+    this.aboutVillage.availableTroops[7] = +this.aboutVillage.availableTroops[7] - +this.attackForm.value.u28;
+    this.aboutVillage.availableTroops[8] = +this.aboutVillage.availableTroops[8] - +this.attackForm.value.u29;
+    this.aboutVillage.availableTroops[9] = +this.aboutVillage.availableTroops[9] - +this.attackForm.value.u30;
+    this.aboutVillage.availableTroops[10] = +this.aboutVillage.availableTroops[10] - +this.attackForm.value.u31;
+
     this.attackForm.patchValue(
       {u21: 0, u22: 0, u23: 0, u24: 0, u25: 0, u26: 0, u27: 0, u28: 0, u29: 0, u30: 0, u31: 0,
         firstTarget: '99', secondTarget: '99'}

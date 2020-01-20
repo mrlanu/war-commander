@@ -17,7 +17,6 @@ export class AttackService {
   constructor(private httpClient: HttpClient) { }
 
   getAllTroops(clientId: string, villageName: string) {
-    console.log(villageName);
     const url = `${this.baseUrl}/villages/${clientId}/${villageName}`;
     this.httpClient.get<AboutVillageModel>(url)
       .subscribe(info => {
