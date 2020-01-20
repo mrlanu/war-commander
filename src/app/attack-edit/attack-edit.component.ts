@@ -14,6 +14,7 @@ import {AboutVillageModel} from '../models/about-village.model';
 export class AttackEditComponent implements OnInit, OnDestroy {
 
   showDate = false;
+  connected = false;
 
   aboutVillage: AboutVillageModel = new AboutVillageModel(
     null,
@@ -37,13 +38,19 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.initForm();
     this.componentSubs.push(this.attackService.villagesChanged
       .subscribe((info: AboutVillageModel) => {
-        this.aboutVillage.allVillageList = info.allVillageList;
+        if (info) {
+          this.aboutVillage.allVillageList = info.allVillageList;
+          this.connected = true;
+        }
       }));
     this.componentSubs.push(this.attackService.availableTroopsChanged
       .subscribe((info: AboutVillageModel) => {
         this.aboutVillage.availableTroops = info.availableTroops;
       }));
-    //this.attackService.getAllVillages('mrlanu');
+  }
+
+  onConnect() {
+    this.attackService.getAllVillages(this.attackForm.value.clientId);
   }
 
   initForm() {
@@ -57,7 +64,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       x: new FormControl(0),
       y: new FormControl(0),
       kind: new FormControl('3'),
-      playerId: new FormControl('mrlanu'),
+      clientId: new FormControl(),
       u21: new FormControl(0),
       u22: new FormControl(0),
       u23: new FormControl(0),
@@ -78,7 +85,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.attack = {
       ...this.attack,
       attackId: 'testAttack',
-      playerId: this.attackForm.value.playerId,
+      clientId: this.attackForm.value.clientId,
       immediately: this.attackForm.value.immediately,
       villageName: this.attackForm.value.villageName,
       x: +this.attackForm.value.x,
@@ -95,7 +102,6 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       this.attackForm.value.time.second);
     }
 
-    console.log(this.attack);
     this.attackService.sendAttack(this.attack);
     this.attack.waves = [];
   }

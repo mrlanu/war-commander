@@ -16,17 +16,17 @@ export class AttackService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllTroops(playerId: string, villageName: string) {
+  getAllTroops(clientId: string, villageName: string) {
     console.log(villageName);
-    const url = `${this.baseUrl}/villages/${playerId}/${villageName}`;
+    const url = `${this.baseUrl}/villages/${clientId}/${villageName}`;
     this.httpClient.get<AboutVillageModel>(url)
       .subscribe(info => {
         this.availableTroopsChanged.next(info);
       });
   }
 
-  getAllVillages(playerId: string) {
-    const url = `${this.baseUrl}/villages/${playerId}`;
+  getAllVillages(clientId: string) {
+    const url = `${this.baseUrl}/villages/${clientId}`;
     this.httpClient.get<AboutVillageModel>(url)
       .subscribe(info => {
         console.log(info);
