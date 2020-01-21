@@ -14,6 +14,7 @@ export class AttackService {
   villagesChanged = new Subject<AboutVillageModel>();
   availableTroopsChanged = new Subject<AboutVillageModel>();
   loadingChanged = new Subject<boolean>();
+  connectedChanged = new Subject<boolean>();
 
   constructor(private httpClient: HttpClient) { }
 

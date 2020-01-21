@@ -43,7 +43,7 @@
                 <div class="form-check">
                   <div class="input-group col-sm-12">
                     <div class="input-group">
-                      <input class="form-check-input" type="checkbox" value="" id="spam" (change)="onSpam()" #spam>
+                      <input class="form-check-input" [disabled]="!connected" type="checkbox" value="" id="spam" (change)="onSpam()" #spam>
                       <label class="form-check-label" for="defaultCheck1">Spam ?</label>
                     </div>
                   </div>
@@ -411,7 +411,7 @@
 
           <div class="mt-5" style="text-align: right">
             <button type="button" class="btn btn-primary btn-block" (click)="onAddWave()"
-                    [disabled]="attack.waves.length >= 4">ADD WAVE</button>
+                    [disabled]="attack.waves.length >= 4 || !connected">ADD WAVE</button>
           </div>
 
           <hr>
@@ -439,7 +439,8 @@
           </div>
 
           <div class="mt-3 mb-4" style="text-align: right">
-            <button type="submit" class="btn btn-success btn-block">{{ spam.checked ? 'SEND SPAM' : 'SEND ATTACK'}}</button>
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!connected">
+              {{ spam.checked ? 'SEND SPAM' : attackForm.value.kind == 2 ? 'SEND REINFORCEMENT' : 'SEND ATTACK'}}</button>
           </div>
         </form>
       </div>
