@@ -6,7 +6,7 @@ import {TestComponent} from './test/test.component';
 
 
 const routes: Routes = [
-  {path: 'welcome-page', component: WelcomePageComponent},
+  {path: 'welcome-page', component: AttackEditComponent},
   {path: 'attack-edit', component: AttackEditComponent},
   {path: 'test', component: TestComponent},
   /*{path: 'main', component: MainComponent, canActivateChild: [AuthGuard], children: [

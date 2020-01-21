@@ -13,6 +13,7 @@ export class AttackService {
   baseUrl = environment.baseUrl;
   villagesChanged = new Subject<AboutVillageModel>();
   availableTroopsChanged = new Subject<AboutVillageModel>();
+  loadingChanged = new Subject<boolean>();
 
   constructor(private httpClient: HttpClient) { }
 

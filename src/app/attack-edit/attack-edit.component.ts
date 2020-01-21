@@ -14,7 +14,7 @@ import {AboutVillageModel} from '../models/about-village.model';
 export class AttackEditComponent implements OnInit, OnDestroy {
 
   showDate = false;
-  isSpam = false;
+  loading = false;
   connected = false;
 
   aboutVillage: AboutVillageModel = new AboutVillageModel(
@@ -24,7 +24,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
   attack: AttackModel = new AttackModel(
     '', '', true, '',
-    0, 0, 3, new Date(), []
+    0, 0, 3, new Date(), [], 0
   );
 
   timeModel: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
@@ -34,7 +34,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
   componentSubs: Subscription[] = [];
   @ViewChild('spam', {static: false}) spam;
 
-  constructor(private attackService: AttackService) { }
+  constructor(public attackService: AttackService) { }
 
   ngOnInit() {
     this.initForm();
@@ -42,6 +42,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       .subscribe((info: AboutVillageModel) => {
         if (info) {
           this.aboutVillage.allVillageList = info.allVillageList;
+          this.attackService.loadingChanged.next(false);
           this.connected = true;
         }
       }));
@@ -49,11 +50,16 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       .subscribe((info: AboutVillageModel) => {
         this.aboutVillage.availableTroops = info.availableTroops;
       }));
+    this.componentSubs.push(this.attackService.loadingChanged
+      .subscribe((status: boolean) => {
+        this.loading = status;
+      }));
   }
 
   onSpam() {}
 
   onConnect() {
+    this.attackService.loadingChanged.next(true);
     this.attackService.getAllVillages(this.attackForm.value.clientId);
   }
 
@@ -69,6 +75,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       y: new FormControl(0),
       kind: new FormControl('3'),
       clientId: new FormControl(),
+      timeCorrection: new FormControl(0),
       u21: new FormControl(0),
       u22: new FormControl(0),
       u23: new FormControl(0),
@@ -97,7 +104,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       y: +this.attackForm.value.y,
       kindAttack: +this.attackForm.value.kind,
       time: this.attackForm.value.date,
-      waves: this.attack.waves
+      waves: this.attack.waves,
+      timeCorrection: +this.attackForm.value.timeCorrection
     };
 
     if (this.showDate) {
