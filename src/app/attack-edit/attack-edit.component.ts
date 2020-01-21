@@ -49,6 +49,7 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.componentSubs.push(this.attackService.availableTroopsChanged
       .subscribe((info: AboutVillageModel) => {
         this.aboutVillage.availableTroops = info.availableTroops;
+        this.attackService.loadingChanged.next(false);
       }));
     this.componentSubs.push(this.attackService.loadingChanged
       .subscribe((status: boolean) => {
@@ -121,6 +122,35 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       this.attackService.sendAttack(this.attack);
     }
     this.attack.waves = [];
+    this.aboutVillage.availableTroops = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.attackForm.reset({
+      immediately: true,
+      time: this.timeModel,
+      date: new Date(),
+      x: 0,
+      y: 0,
+      kind: '3',
+      clientId: this.attackForm.value.clientId,
+      timeCorrection: 0,
+      u21: 0,
+      u22: 0,
+      u23: 0,
+      u24: 0,
+      u25: 0,
+      u26: 0,
+      u27: 0,
+      u28: 0,
+      u29: 0,
+      u30: 0,
+      u31: 0,
+      firstTarget: '99',
+      secondTarget: '99',
+    });
+  }
+
+  onVillageChange(villageName: string) {
+    this.attackService.loadingChanged.next(true);
+    this.attackService.getAllTroops(this.attackForm.value.clientId, villageName);
   }
 
   onImmediatelyChange(value) {

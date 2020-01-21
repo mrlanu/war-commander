@@ -8,8 +8,20 @@
 
             <div class="row mb-3 mt-4">
               <div class="col-sm-4">
+                <div class="input-group" style="margin-top: 32px">
+                  <input type="text" class="form-control form-control-sm" placeholder="Client ID ?"
+                         aria-label="playerId" aria-describedby="button-addon2" formControlName="clientId">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-success btn-sm"
+                            type="button" id="button-addon2" [disabled]="connected || !attackForm.value.clientId"
+                            (click)="onConnect()">{{ connected ? 'Connected' : 'Connect'}}</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
                 <label for="village" class="col-sm-12">Select a Village</label>
-                <select (change)="attackService.getAllTroops(attackForm.value.clientId, $event.target.value)" class="form-control form-control-sm" formControlName="villageName" id="village">
+                <select (change)="onVillageChange($event.target.value)"
+                        class="form-control form-control-sm" formControlName="villageName" id="village">
                   <option *ngFor="let village of aboutVillage.allVillageList" [value]="village.name">
                     {{village.name}}
                   </option>
@@ -20,17 +32,6 @@
                   <label for="timeCorr">Time correction</label>
                   <input type="number" class="form-control form-control-sm" id="timeCorr" formControlName="timeCorrection">
                   <small id="timeCorrHelp" class="form-text text-muted">For the time adjustment.</small>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="input-group" style="margin-top: 32px">
-                  <input type="text" class="form-control form-control-sm" placeholder="Client ID ?"
-                         aria-label="playerId" aria-describedby="button-addon2" formControlName="clientId">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-success btn-sm"
-                            type="button" id="button-addon2" [disabled]="connected || !attackForm.value.clientId"
-                    (click)="onConnect()">{{ connected ? 'Connected' : 'Connect'}}</button>
-                  </div>
                 </div>
               </div>
             </div>
