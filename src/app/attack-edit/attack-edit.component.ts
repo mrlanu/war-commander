@@ -28,6 +28,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     0, 0, 3, new Date(), [], 0
   );
 
+  targets: string[] = ['Случайная цель', 'Случайная цель'];
+
   timeModel: NgbTimeStruct = {hour: 0, minute: 0, second: 0};
   seconds = true;
 
@@ -43,13 +45,15 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       .subscribe((info: AboutVillageModel) => {
         if (info) {
           this.aboutVillage.allVillageList = info.allVillageList;
-          this.attackService.loadingChanged.next(false);
           this.attackService.connectedChanged.next(true);
         }
+        this.attackService.loadingChanged.next(false);
       }));
     this.componentSubs.push(this.attackService.availableTroopsChanged
       .subscribe((info: AboutVillageModel) => {
-        this.aboutVillage.availableTroops = info.availableTroops;
+        if (info) {
+          this.aboutVillage.availableTroops = info.availableTroops;
+        }
         this.attackService.loadingChanged.next(false);
       }));
     this.componentSubs.push(this.attackService.loadingChanged
@@ -123,6 +127,11 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       firstTarget: new FormControl({value: '99', disabled: true}),
       secondTarget: new FormControl({value: '99', disabled: true}),
     });
+  }
+
+  onChangeTarget(targetNumber: number, event: any) {
+    const value = event.target.options.selectedIndex.toString();
+    this.targets[targetNumber - 1] = event.target.options[value].text;
   }
 
   onSubmit(isSpam: boolean) {
@@ -201,8 +210,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       troops: [+this.attackForm.value.u21, +this.attackForm.value.u22, +this.attackForm.value.u23, +this.attackForm.value.u24,
         +this.attackForm.value.u25, +this.attackForm.value.u26, +this.attackForm.value.u27, +this.attackForm.value.u28,
         +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31],
-      firstTarget: +this.attackForm.value.firstTarget,
-      secondTarget: +this.attackForm.value.secondTarget});
+      firstTarget: +this.attackForm.value.firstTarget, firstTargetText: this.targets[0],
+      secondTarget: +this.attackForm.value.secondTarget, secondTargetText: this.targets[1]});
 
     this.aboutVillage.availableTroops[0] = +this.aboutVillage.availableTroops[0] - +this.attackForm.value.u21;
     this.aboutVillage.availableTroops[1] = +this.aboutVillage.availableTroops[1] - +this.attackForm.value.u22;

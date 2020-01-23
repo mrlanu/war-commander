@@ -320,7 +320,8 @@
               <div class="col">
 
                   <label class="col-sm-8">Target #1</label>
-                  <select class="form-control" name="troops[0][kata]" formControlName="firstTarget">
+                  <select class="form-control" name="troops[0][kata]" (change)="onChangeTarget(1, $event)"
+                          formControlName="firstTarget">
                     <option value="99">Случайная цель</option>
                     <optgroup label="Сырье">
                       <option value="1">Лесопилка</option>
@@ -364,7 +365,8 @@
 
               <div class="col">
                   <label class="col-sm-8">Target #2</label>
-                  <select class="form-control" name="troops[0][kata]" formControlName="secondTarget">
+                  <select class="form-control" name="troops[0][kata]" (change)="onChangeTarget(2, $event)"
+                          formControlName="secondTarget">
                     <option value="99">Случайная цель</option>
                     <optgroup label="Сырье">
                       <option value="1">Лесопилка</option>
@@ -427,11 +429,19 @@
                 </th>
               </tr>
               </thead>
-              <tbody>
-              <tr *ngFor="let wave of attack.waves; let i = index;">
+              <tbody *ngFor="let wave of attack.waves; let i = index;">
+              <tr>
                 <th scope="row">{{i + 1}}</th>
                 <td *ngFor="let troop of wave.troops; let t = index">
                   {{ troop }}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6" style="text-align: center">
+                  {{ wave.firstTargetText }}
+                </td>
+                <td colspan="6" style="text-align: center">
+                  {{ wave.secondTargetText }}
                 </td>
               </tr>
               </tbody>
@@ -439,7 +449,7 @@
           </div>
 
           <div class="mt-3 mb-4" style="text-align: right">
-            <button type="submit" class="btn btn-success btn-block" [disabled]="!connected">
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!connected || attack.waves.length < 1">
               {{ spam.checked ? 'SEND SPAM' : attackForm.value.kind == 2 ? 'SEND REINFORCEMENT' : 'SEND ATTACK'}}</button>
           </div>
         </form>
