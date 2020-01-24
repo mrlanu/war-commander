@@ -116,3 +116,7 @@ img.u31 {
   width: 100%;
   background: rgba(0,0,0,0.5);
 }
+
+.invalid-feedback {
+  display: block;
+}

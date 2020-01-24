@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {AttackModel} from '../models/attack.model';
@@ -104,8 +104,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       immediately: new FormControl({value: true, disabled: true}),
       time: new FormControl({value: this.timeModel, disabled: true}),
       date: new FormControl({value: new Date(), disabled: true}),
-      x: new FormControl({value: 0, disabled: true}),
-      y: new FormControl({value: 0, disabled: true}),
+      x: new FormControl({value: '', disabled: true}, Validators.required),
+      y: new FormControl({value: '', disabled: true}, Validators.required),
       kind: new FormControl({value: '3', disabled: true}),
       clientId: new FormControl(),
       timeCorrection: new FormControl({value: 0, disabled: true}),
@@ -123,6 +123,14 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       firstTarget: new FormControl({value: '99', disabled: true}),
       secondTarget: new FormControl({value: '99', disabled: true}),
     });
+  }
+
+  onSpam(event: any) {
+    if (event.target.checked) {
+      this.attackForm.patchValue({x: 0, y: 0});
+    } else {
+      this.attackForm.patchValue({x: '', y: ''});
+    }
   }
 
   onVillageChange(villageName: string) {

@@ -43,7 +43,8 @@
                 <div class="form-check">
                   <div class="input-group col-sm-12">
                     <div class="input-group">
-                      <input class="form-check-input" [disabled]="!connected" type="checkbox" value="" id="spam" (change)="onSpam()" #spam>
+                      <input class="form-check-input" [disabled]="!connected" type="checkbox" value="" id="spam"
+                             (change)="onSpam($event)" #spam>
                       <label class="form-check-label" for="defaultCheck1">Spam ?</label>
                     </div>
                   </div>
@@ -94,14 +95,23 @@
             </div>
 
           <!--Coordinates-->
-          <div class="row" [ngStyle]="{display: !spam.checked ? 'block' : 'none'}">
-            <div class="input-group input-group-sm col-sm-12">
-              <div class="input-group-prepend">
-                <span class="input-group-text">X | Y</span>
+          <div [ngStyle]="{display: !spam.checked ? 'block' : 'none'}">
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <input type="text" class="form-control form-control-sm" placeholder="X coordinate" formControlName="x"
+                         [ngClass]="{'is-invalid': attackForm.get('x').invalid && attackForm.get('x').touched}">
+                  <div *ngIf="attackForm.get('x').invalid && attackForm.get('x').touched" class="invalid-feedback">
+                    X coordinate is required.
+                  </div>
+                </div>
+                <div class="form-group col-sm-6">
+                  <input type="text" class="form-control form-control-sm" placeholder="Y coordinate" formControlName="y"
+                         [ngClass]="{'is-invalid': attackForm.get('y').invalid && attackForm.get('y').touched}">
+                  <div *ngIf="attackForm.get('y').invalid && attackForm.get('y').touched" class="invalid-feedback">
+                    Y coordinate is required.
+                  </div>
+                </div>
               </div>
-              <input type="number" aria-label="X" class="form-control" id="x" formControlName="x">
-              <input type="number" aria-label="Y" class="form-control" id="y" formControlName="y">
-            </div>
           </div>
 
           <!--Kind of Attack-->
@@ -453,7 +463,8 @@
           </div>
 
           <div class="mt-3 mb-4" style="text-align: right">
-            <button type="submit" class="btn btn-success btn-block" [disabled]="!connected || attack.waves.length < 1">
+            <button type="submit" class="btn btn-success btn-block"
+                    [disabled]="!connected || attack.waves.length < 1 || attackForm.invalid || attackForm.untouched">
               {{ spam.checked ? 'SEND SPAM' : attackForm.value.kind == 2 ? 'SEND REINFORCEMENT' : 'SEND ATTACK'}}</button>
           </div>
         </form>
