@@ -89,8 +89,6 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.attackForm.controls.u29.enable();
     this.attackForm.controls.u30.enable();
     this.attackForm.controls.u31.enable();
-    this.attackForm.controls.firstTarget.enable();
-    this.attackForm.controls.secondTarget.enable();
   }
 
   onConnect() {
@@ -165,6 +163,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       {u21: 0, u22: 0, u23: 0, u24: 0, u25: 0, u26: 0, u27: 0, u28: 0, u29: 0, u30: 0, u31: 0,
         firstTarget: '99', secondTarget: '99'}
     );
+
+    this.targets = ['Случайная цель', 'Случайная цель'];
   }
 
   onWaveDelete(i: number) {
@@ -237,10 +237,31 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.showDate = false;
   }
 
-  checkAvailableTroops(id, itself, amount) {
-    if (+amount.target.value > this.aboutVillage.availableTroops[id]) {
+  checkAvailableTroops(id, itself, amountEvent) {
+    const amount = +amountEvent.target.value;
+    if (amount > this.aboutVillage.availableTroops[id]) {
       const input = itself as HTMLInputElement;
       this.attackForm.get(input.name).patchValue(this.aboutVillage.availableTroops[id]);
+    }
+    if (id === 7 && amount >= 1 && +this.attackForm.value.kind === 3) {
+      this.attackForm.controls.firstTarget.enable();
+    } else if ((id === 7 && amount < 1) || +this.attackForm.value.kind !== 3) {
+      this.attackForm.controls.firstTarget.disable();
+    }
+    if (id === 7 && amount >= 20 && +this.attackForm.value.kind === 3) {
+      this.attackForm.controls.secondTarget.enable();
+    } else if ((id === 7 && amount < 20) || +this.attackForm.value.kind !== 3) {
+      this.attackForm.controls.secondTarget.disable();
+    }
+  }
+
+  onKindChange() {
+    if (+this.attackForm.value.kind === 3) {
+      this.attackForm.controls.firstTarget.enable();
+      this.attackForm.controls.secondTarget.enable();
+    } else if (+this.attackForm.value.kind !== 3) {
+      this.attackForm.controls.firstTarget.disable();
+      this.attackForm.controls.secondTarget.disable();
     }
   }
 
