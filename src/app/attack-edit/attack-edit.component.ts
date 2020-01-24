@@ -140,10 +140,17 @@ export class AttackEditComponent implements OnInit, OnDestroy {
   }
 
   onAddWave() {
+    const troops = [+this.attackForm.value.u21, +this.attackForm.value.u22, +this.attackForm.value.u23, +this.attackForm.value.u24,
+      +this.attackForm.value.u25, +this.attackForm.value.u26, +this.attackForm.value.u27, +this.attackForm.value.u28,
+      +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31];
+
+    const summ = troops.reduce((a, b) => a + b, 0);
+    if (summ === 0) {
+      return;
+    }
+
     this.attack.waves.push({
-      troops: [+this.attackForm.value.u21, +this.attackForm.value.u22, +this.attackForm.value.u23, +this.attackForm.value.u24,
-        +this.attackForm.value.u25, +this.attackForm.value.u26, +this.attackForm.value.u27, +this.attackForm.value.u28,
-        +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31],
+      troops,
       firstTarget: +this.attackForm.value.firstTarget, firstTargetText: this.targets[0],
       secondTarget: +this.attackForm.value.secondTarget, secondTargetText: this.targets[1]});
 
