@@ -427,6 +427,7 @@
                 <th scope="col" *ngFor="let troop of aboutVillage.availableTroops; let i = index;">
                   <img [className]="'unit u' + (20 + i + 1)" src="../../assets/images/x.gif" alt="image">
                 </th>
+                <th scope="col"></th>
               </tr>
               </thead>
               <tbody *ngFor="let wave of attack.waves; let i = index;">
@@ -435,12 +436,15 @@
                 <td *ngFor="let troop of wave.troops; let t = index">
                   {{ troop }}
                 </td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="onWaveDelete(i)">X</button>
+                </td>
               </tr>
               <tr>
                 <td colspan="6" style="text-align: center">
                   {{ wave.firstTargetText }}
                 </td>
-                <td colspan="6" style="text-align: center">
+                <td colspan="7" style="text-align: center">
                   {{ wave.secondTargetText }}
                 </td>
               </tr>

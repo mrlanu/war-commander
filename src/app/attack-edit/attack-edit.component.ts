@@ -93,8 +93,6 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.attackForm.controls.secondTarget.enable();
   }
 
-  onSpam() {}
-
   onConnect() {
     this.attackService.loadingChanged.next(true);
     this.attackService.getAllVillages(this.attackForm.value.clientId);
@@ -129,9 +127,59 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  onVillageChange(villageName: string) {
+    this.attackService.loadingChanged.next(true);
+    this.attackService.getAllTroops(this.attackForm.value.clientId, villageName);
+  }
+
+  onImmediatelyChange(value) {
+    this.showDate = !value.target.checked;
+  }
+
   onChangeTarget(targetNumber: number, event: any) {
     const value = event.target.options.selectedIndex.toString();
     this.targets[targetNumber - 1] = event.target.options[value].text;
+  }
+
+  onAddWave() {
+    this.attack.waves.push({
+      troops: [+this.attackForm.value.u21, +this.attackForm.value.u22, +this.attackForm.value.u23, +this.attackForm.value.u24,
+        +this.attackForm.value.u25, +this.attackForm.value.u26, +this.attackForm.value.u27, +this.attackForm.value.u28,
+        +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31],
+      firstTarget: +this.attackForm.value.firstTarget, firstTargetText: this.targets[0],
+      secondTarget: +this.attackForm.value.secondTarget, secondTargetText: this.targets[1]});
+
+    this.aboutVillage.availableTroops[0] = +this.aboutVillage.availableTroops[0] - +this.attackForm.value.u21;
+    this.aboutVillage.availableTroops[1] = +this.aboutVillage.availableTroops[1] - +this.attackForm.value.u22;
+    this.aboutVillage.availableTroops[2] = +this.aboutVillage.availableTroops[2] - +this.attackForm.value.u23;
+    this.aboutVillage.availableTroops[3] = +this.aboutVillage.availableTroops[3] - +this.attackForm.value.u24;
+    this.aboutVillage.availableTroops[4] = +this.aboutVillage.availableTroops[4] - +this.attackForm.value.u25;
+    this.aboutVillage.availableTroops[5] = +this.aboutVillage.availableTroops[5] - +this.attackForm.value.u26;
+    this.aboutVillage.availableTroops[6] = +this.aboutVillage.availableTroops[6] - +this.attackForm.value.u27;
+    this.aboutVillage.availableTroops[7] = +this.aboutVillage.availableTroops[7] - +this.attackForm.value.u28;
+    this.aboutVillage.availableTroops[8] = +this.aboutVillage.availableTroops[8] - +this.attackForm.value.u29;
+    this.aboutVillage.availableTroops[9] = +this.aboutVillage.availableTroops[9] - +this.attackForm.value.u30;
+    this.aboutVillage.availableTroops[10] = +this.aboutVillage.availableTroops[10] - +this.attackForm.value.u31;
+
+    this.attackForm.patchValue(
+      {u21: 0, u22: 0, u23: 0, u24: 0, u25: 0, u26: 0, u27: 0, u28: 0, u29: 0, u30: 0, u31: 0,
+        firstTarget: '99', secondTarget: '99'}
+    );
+  }
+
+  onWaveDelete(i: number) {
+    this.aboutVillage.availableTroops[0] = +this.aboutVillage.availableTroops[0] + this.attack.waves[i].troops[0];
+    this.aboutVillage.availableTroops[1] = +this.aboutVillage.availableTroops[1] + this.attack.waves[i].troops[1];
+    this.aboutVillage.availableTroops[2] = +this.aboutVillage.availableTroops[2] + this.attack.waves[i].troops[2];
+    this.aboutVillage.availableTroops[3] = +this.aboutVillage.availableTroops[3] + this.attack.waves[i].troops[3];
+    this.aboutVillage.availableTroops[4] = +this.aboutVillage.availableTroops[4] + this.attack.waves[i].troops[4];
+    this.aboutVillage.availableTroops[5] = +this.aboutVillage.availableTroops[5] + this.attack.waves[i].troops[5];
+    this.aboutVillage.availableTroops[6] = +this.aboutVillage.availableTroops[6] + this.attack.waves[i].troops[6];
+    this.aboutVillage.availableTroops[7] = +this.aboutVillage.availableTroops[7] + this.attack.waves[i].troops[7];
+    this.aboutVillage.availableTroops[8] = +this.aboutVillage.availableTroops[8] + this.attack.waves[i].troops[8];
+    this.aboutVillage.availableTroops[9] = +this.aboutVillage.availableTroops[9] + this.attack.waves[i].troops[9];
+    this.aboutVillage.availableTroops[10] = +this.aboutVillage.availableTroops[10] + this.attack.waves[i].troops[10];
+    this.attack.waves.splice(i, 1);
   }
 
   onSubmit(isSpam: boolean) {
@@ -189,46 +237,11 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     this.showDate = false;
   }
 
-  onVillageChange(villageName: string) {
-    this.attackService.loadingChanged.next(true);
-    this.attackService.getAllTroops(this.attackForm.value.clientId, villageName);
-  }
-
-  onImmediatelyChange(value) {
-    this.showDate = !value.target.checked;
-  }
-
   checkAvailableTroops(id, itself, amount) {
     if (+amount.target.value > this.aboutVillage.availableTroops[id]) {
       const input = itself as HTMLInputElement;
       this.attackForm.get(input.name).patchValue(this.aboutVillage.availableTroops[id]);
     }
-  }
-
-  onAddWave() {
-    this.attack.waves.push({
-      troops: [+this.attackForm.value.u21, +this.attackForm.value.u22, +this.attackForm.value.u23, +this.attackForm.value.u24,
-        +this.attackForm.value.u25, +this.attackForm.value.u26, +this.attackForm.value.u27, +this.attackForm.value.u28,
-        +this.attackForm.value.u29, +this.attackForm.value.u30, +this.attackForm.value.u31],
-      firstTarget: +this.attackForm.value.firstTarget, firstTargetText: this.targets[0],
-      secondTarget: +this.attackForm.value.secondTarget, secondTargetText: this.targets[1]});
-
-    this.aboutVillage.availableTroops[0] = +this.aboutVillage.availableTroops[0] - +this.attackForm.value.u21;
-    this.aboutVillage.availableTroops[1] = +this.aboutVillage.availableTroops[1] - +this.attackForm.value.u22;
-    this.aboutVillage.availableTroops[2] = +this.aboutVillage.availableTroops[2] - +this.attackForm.value.u23;
-    this.aboutVillage.availableTroops[3] = +this.aboutVillage.availableTroops[3] - +this.attackForm.value.u24;
-    this.aboutVillage.availableTroops[4] = +this.aboutVillage.availableTroops[4] - +this.attackForm.value.u25;
-    this.aboutVillage.availableTroops[5] = +this.aboutVillage.availableTroops[5] - +this.attackForm.value.u26;
-    this.aboutVillage.availableTroops[6] = +this.aboutVillage.availableTroops[6] - +this.attackForm.value.u27;
-    this.aboutVillage.availableTroops[7] = +this.aboutVillage.availableTroops[7] - +this.attackForm.value.u28;
-    this.aboutVillage.availableTroops[8] = +this.aboutVillage.availableTroops[8] - +this.attackForm.value.u29;
-    this.aboutVillage.availableTroops[9] = +this.aboutVillage.availableTroops[9] - +this.attackForm.value.u30;
-    this.aboutVillage.availableTroops[10] = +this.aboutVillage.availableTroops[10] - +this.attackForm.value.u31;
-
-    this.attackForm.patchValue(
-      {u21: 0, u22: 0, u23: 0, u24: 0, u25: 0, u26: 0, u27: 0, u28: 0, u29: 0, u30: 0, u31: 0,
-        firstTarget: '99', secondTarget: '99'}
-      );
   }
 
   ngOnDestroy(): void {
