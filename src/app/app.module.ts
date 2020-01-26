@@ -13,6 +13,7 @@ import {faAngleDoubleDown, faAngleLeft, faAngleRight, faCalendarAlt, faPlus} fro
 import { TestComponent } from './test/test.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AttackService} from './services/attack.service';
+import { ErrorComponent } from './modals/error/error.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {AttackService} from './services/attack.service';
     WelcomePageComponent,
     AttackEditComponent,
     TestComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

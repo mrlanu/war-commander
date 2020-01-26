@@ -6,6 +6,8 @@ import {AttackModel} from '../models/attack.model';
 import {AttackService} from '../services/attack.service';
 import {AboutVillageModel} from '../models/about-village.model';
 
+declare var $: any;
+
 @Component({
   selector: 'app-attack-edit',
   templateUrl: './attack-edit.component.html',
@@ -39,6 +41,10 @@ export class AttackEditComponent implements OnInit, OnDestroy {
 
   constructor(public attackService: AttackService) { }
 
+  private static onOpenErrorModal() {
+    $('#errorModal').modal('show');
+  }
+
   ngOnInit() {
     this.initForm();
     this.componentSubs.push(this.attackService.villagesChanged
@@ -46,6 +52,12 @@ export class AttackEditComponent implements OnInit, OnDestroy {
         if (info) {
           this.aboutVillage.allVillageList = info.allVillageList;
           this.attackService.connectedChanged.next(true);
+          if (info.allVillageList.length < 1) {
+            AttackEditComponent.onOpenErrorModal();
+            this.attackService.connectedChanged.next(false);
+          }
+        } else {
+          AttackEditComponent.onOpenErrorModal();
         }
         this.attackService.loadingChanged.next(false);
       }));
