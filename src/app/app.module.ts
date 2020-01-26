@@ -14,6 +14,7 @@ import { TestComponent } from './test/test.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AttackService} from './services/attack.service';
 import { ErrorComponent } from './modals/error/error.component';
+import { SuccessComponent } from './modals/success/success.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ErrorComponent } from './modals/error/error.component';
     AttackEditComponent,
     TestComponent,
     ErrorComponent,
+    SuccessComponent,
   ],
   imports: [
     BrowserModule,

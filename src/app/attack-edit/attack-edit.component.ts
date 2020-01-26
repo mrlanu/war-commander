@@ -45,6 +45,10 @@ export class AttackEditComponent implements OnInit, OnDestroy {
     $('#errorModal').modal('show');
   }
 
+  private static onOpenSuccessModal() {
+    $('#successModal').modal('show');
+  }
+
   ngOnInit() {
     this.initForm();
     this.componentSubs.push(this.attackService.villagesChanged
@@ -262,6 +266,8 @@ export class AttackEditComponent implements OnInit, OnDestroy {
       secondTarget: '99',
     });
     this.showDate = false;
+
+    AttackEditComponent.onOpenSuccessModal();
   }
 
   checkAvailableTroops(id, itself, amountEvent) {
